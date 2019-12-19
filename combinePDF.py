@@ -1,4 +1,4 @@
-#! Python3
+#! python3
 import PyPDF2, sys
 
 # Combine any number of pdf files into one pdf
