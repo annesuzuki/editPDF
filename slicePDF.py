@@ -2,6 +2,7 @@
 
 import PyPDF2, sys
 
+# Check validity of command line arguments
 def valid():
    try:
       if len(sys.argv) < 4:
@@ -11,23 +12,27 @@ def valid():
       return False
    return True
 
-
+# Split creates two new documents as if one had "split" the document physcally
 def split(filename, pageNumber):
-
    try:
+      # Open pdf file that needs splitting
       reader = PyPDF2.PdfFileReader(open(filename,'rb'))
       reader.getPage(pageNumber)
       writer = PyPDF2.PdfFileWriter()
-      for p in range(pageNumber):
+
+      # Create 2 pdf files
+      for p in range(pageNumber):   # split_1.pdf contains pages 1 - pageNumber
          writer.addPage(reader.getPage(p))
       splitFile = open('split_1.pdf','wb')
       writer.write(splitFile)
       splitFile.close()
       writer = PyPDF2.PdfFileWriter()
-      for p in range(pageNumber,reader.numPages):
+      for p in range(pageNumber,reader.numPages): # split_2.pdf contains rest of document
          writer.addPage(reader.getPage(p))
+
       splitFile = open('split_2.pdf','wb')
       writer.write(splitFile)
+
       splitFile.close()
    except Exception as e:
       print(str(e))
